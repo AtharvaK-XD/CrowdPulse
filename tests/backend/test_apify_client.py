@@ -137,3 +137,28 @@ def test_missing_token_raises_before_any_call(settings, monkeypatch):
 def test_proxy_input(settings):
     assert proxy_input(settings) == {"useApifyProxy": True}
     assert proxy_input(settings, residential=True)["apifyProxyGroups"] == ["RESIDENTIAL"]
+
+
+def test_new_client_signature_uses_run_timeout(settings):
+    """apify-client >= 3 takes run_timeout (timedelta) and max_total_charge_usd, not timeout_secs."""
+    from datetime import timedelta
+    from decimal import Decimal
+
+    seen = {}
+
+    class V3Client(FakeClient):
+        def actor(self, actor_id):
+            client = self
+
+            class _Actor:
+                def call(self, *, run_input=None, memory_mbytes=None, run_timeout=None,
+                         max_total_charge_usd=None, wait_duration=None):
+                    seen.update(run_timeout=run_timeout, memory=memory_mbytes, charge=max_total_charge_usd)
+                    return client.outcomes.pop(0)
+
+            return _Actor()
+
+    items, _ = _run(settings, V3Client([OK_RUN], [{"a": 1}]), memory_mbytes=2048, max_charge_usd=1.0)
+    assert items == [{"a": 1}]
+    assert seen == {"run_timeout": timedelta(seconds=settings.apify.timeout_secs), "memory": 2048,
+                    "charge": Decimal("1.0")}

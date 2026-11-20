@@ -1,0 +1,22 @@
+[
+  {"lang": "ko", "label": "bullish", "text": "삼성전자 드디어 반등 시작이다 가즈아 상한가 간다"},
+  {"lang": "ko", "label": "bullish", "text": "하이닉스 실적 미쳤다 오늘 추가 매수했습니다 존버 갑니다"},
+  {"lang": "ko", "label": "bullish", "text": "외국인 순매수 들어온다 이번주 떡상 확정"},
+  {"lang": "ko", "label": "bearish", "text": "또 떡락이네 개미털기 지겹다 손절하고 나갑니다"},
+  {"lang": "ko", "label": "bearish", "text": "하한가 맞고 계좌 녹았다 한강 물 온도 체크하러 감"},
+  {"lang": "ko", "label": "bearish", "text": "카카오는 답이 없다 내일 시초가에 전량 매도할 예정"},
+  {"lang": "ko", "label": "bearish", "text": "물렸다 진짜 이 주식은 다시는 안 산다 깡통 직전"},
+  {"lang": "ko", "label": "neutral", "text": "내일 실적 발표 몇 시에 나오나요?"},
+  {"lang": "ko", "label": "neutral", "text": "현대차 배당 기준일 언제인지 아시는 분"},
+  {"lang": "ko", "label": "bullish", "text": "네이버 AI 서비스 반응 좋다 장기적으로 보면 지금이 줍줍 구간"},
+  {"lang": "zh", "label": "bullish", "text": "騰訊終於突破400蚊，今日再入貨，上車啦"},
+  {"lang": "zh", "label": "bullish", "text": "小米新車訂單爆燈，業績會捷報，繼續持有睇高一線"},
+  {"lang": "zh", "label": "bullish", "text": "阿里跌到咁殘係抄底好時機，我已經買入咗"},
+  {"lang": "zh", "label": "bearish", "text": "美團又插水，今日割肉離場，唔玩喇"},
+  {"lang": "zh", "label": "bearish", "text": "比亞迪跌穿支持位，快啲止損，睇怕會跌到河豚年紀"},
+  {"lang": "zh", "label": "bearish", "text": "騰訊業績差過預期，大行全部降目標價，沽貨先"},
+  {"lang": "zh", "label": "bearish", "text": "孖展爆倉，阿里真係害死人"},
+  {"lang": "zh", "label": "neutral", "text": "請問騰訊幾時公布業績？"},
+  {"lang": "zh", "label": "neutral", "text": "小米今日成交額幾多？有冇人知"},
+  {"lang": "zh", "label": "bullish", "text": "恒指反彈，科技股帶頭升，騰訊阿里都好強"}
+]

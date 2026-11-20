@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import inspect
 import logging
 import time as _time
-from datetime import date
+from datetime import date, timedelta
+from decimal import Decimal
 from typing import Any, Callable
 
 from crowdpulse.config import Settings, get_secret, load_config
@@ -69,6 +71,8 @@ def run_actor(
     client_factory: Callable[[str], Any] = _default_client_factory,
     day: date | None = None,
     sleep: Callable[[float], None] = _time.sleep,
+    memory_mbytes: int | None = None,
+    max_charge_usd: float | None = None,
 ) -> list[dict[str, Any]]:
     """Start an Apify actor, wait for it, download its dataset items and save them raw.
 
@@ -92,7 +96,8 @@ def run_actor(
     last_error: BaseException | None = None
     for attempt in range(1, attempts + 1):
         try:
-            items, run_id = _run_once(client, actor_id, run_input, settings.apify.timeout_secs)
+            items, run_id = _run_once(client, actor_id, run_input, settings.apify.timeout_secs,
+                                      memory_mbytes, max_charge_usd)
         except Exception as exc:  # noqa: BLE001 - classified below
             last_error = exc
             if not _is_retryable(exc):
@@ -123,10 +128,36 @@ def run_actor(
     raise ApifyRunError(f"Apify actor {actor_id} failed after {attempts} attempts: {last_error}") from last_error
 
 
+def _call_kwargs(call: Any, timeout_secs: int, memory_mbytes: int | None,
+                 max_charge_usd: float | None) -> dict[str, Any]:
+    """Build keyword args for ActorClient.call across apify-client versions.
+
+    apify-client >= 3 takes run_timeout (timedelta) and max_total_charge_usd;
+    older versions take timeout_secs.
+    """
+    try:
+        params = inspect.signature(call).parameters
+    except (TypeError, ValueError):
+        params = {}
+    kwargs: dict[str, Any] = {}
+    if "run_timeout" in params:
+        kwargs["run_timeout"] = timedelta(seconds=timeout_secs)
+    else:
+        kwargs["timeout_secs"] = timeout_secs
+    if memory_mbytes is not None and ("memory_mbytes" in params or not params):
+        kwargs["memory_mbytes"] = memory_mbytes
+    if max_charge_usd is not None and "max_total_charge_usd" in params:
+        kwargs["max_total_charge_usd"] = Decimal(str(max_charge_usd))
+    return kwargs
+
+
 def _run_once(
-    client: Any, actor_id: str, run_input: dict[str, Any], timeout_secs: int
+    client: Any, actor_id: str, run_input: dict[str, Any], timeout_secs: int,
+    memory_mbytes: int | None = None, max_charge_usd: float | None = None,
 ) -> tuple[list[dict[str, Any]], str | None]:
-    run = client.actor(actor_id).call(run_input=run_input, timeout_secs=timeout_secs)
+    actor = client.actor(actor_id)
+    run = actor.call(run_input=run_input,
+                     **_call_kwargs(actor.call, timeout_secs, memory_mbytes, max_charge_usd))
     if run is None:
         raise ApifyRunError(f"Apify actor {actor_id} returned no run object")
     run_id = _field(run, "id")
