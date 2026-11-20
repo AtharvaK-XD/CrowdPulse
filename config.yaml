@@ -7,8 +7,8 @@ exchanges:
     timezone: Asia/Hong_Kong      # HKT, UTC+8
     close_utc: "08:00"
     currency: HKD
-    sources: [futu, aastocks]
-    backup_sources: [lihkg]
+    sources: [futu, lihkg]
+    backup_sources: [aastocks]
   KRX:
     timezone: Asia/Seoul          # KST, UTC+9
     close_utc: "06:30"

@@ -146,8 +146,11 @@ def _clean_json(o: Any) -> Any:
         return {k: _clean_json(v) for k, v in o.items()}
     if isinstance(o, list):
         return [_clean_json(v) for v in o]
-    if isinstance(o, float) and (math.isnan(o) or math.isinf(o)):
-        return None
+    if isinstance(o, float):
+        if math.isnan(o) or math.isinf(o):
+            return None
+        if abs(o) >= 1 and o == int(o):
+            return int(o)  # 183100.0 -> 183100, so KRW prices print without ".0"
     return o
 
 

@@ -110,3 +110,10 @@ def test_validator_catches_problems(settings, tmp_path):
     assert "posts.sentiment_score" in text
     assert ".position: invalid" in text
     assert ".prediction: invalid" in text
+
+
+def test_clean_json_writes_whole_numbers_as_integers():
+    from crowdpulse.export import _clean_json
+    out = _clean_json({"price": 183100.0, "px": 27.64, "zero": 0.0, "bad": float("nan"), "lv": [344.0, None]})
+    assert out == {"price": 183100, "px": 27.64, "zero": 0.0, "bad": None, "lv": [344, None]}
+    assert isinstance(out["price"], int)
