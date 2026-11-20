@@ -569,7 +569,7 @@
               <th>Ticker / Name</th>
               <th>Current Price</th>
               <th>10d Mentions</th>
-              <th>Social Sentiment</th>
+              <th>Raw Sentiment Score</th>
               <th>Direction</th>
               <th>Confidence</th>
               <th>Position</th>
@@ -715,7 +715,7 @@
                 <div class="feed-item-header">
                   <span class="badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">{{ post.source | upper }}</span>
                   <span class="num-cell" style="color: {% if post.sentiment_score is not none and post.sentiment_score > 0.15 %}var(--bullish){% elif post.sentiment_score is not none and post.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {% if post.sentiment_score is not none %}{{ post.sentiment_score }}{% else %}—{% endif %}
+                    Raw Score: {% if post.sentiment_score is not none %}{{ post.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ post.url }}" target="_blank">{{ post.text }}</a></p>
@@ -735,7 +735,7 @@
                 <div class="feed-item-header">
                   <span style="color: var(--text-muted); font-size: 0.72rem;">NEWS SOURCE</span>
                   <span class="num-cell" style="color: {% if news.sentiment_score is not none and news.sentiment_score > 0.15 %}var(--bullish){% elif news.sentiment_score is not none and news.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {% if news.sentiment_score is not none %}{{ news.sentiment_score }}{% else %}—{% endif %}
+                    Raw Score: {% if news.sentiment_score is not none %}{{ news.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ news.url }}" target="_blank">{{ news.title }}</a></p>
@@ -780,7 +780,7 @@
               <th>Ticker / Name</th>
               <th>Current Price</th>
               <th>10d Mentions</th>
-              <th>Social Sentiment</th>
+              <th>Raw Sentiment Score</th>
               <th>Direction</th>
               <th>Confidence</th>
               <th>Position</th>
@@ -926,7 +926,7 @@
                 <div class="feed-item-header">
                   <span class="badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">{{ post.source | upper }}</span>
                   <span class="num-cell" style="color: {% if post.sentiment_score is not none and post.sentiment_score > 0.15 %}var(--bullish){% elif post.sentiment_score is not none and post.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {% if post.sentiment_score is not none %}{{ post.sentiment_score }}{% else %}—{% endif %}
+                    Raw Score: {% if post.sentiment_score is not none %}{{ post.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ post.url }}" target="_blank">{{ post.text }}</a></p>
@@ -946,7 +946,7 @@
                 <div class="feed-item-header">
                   <span style="color: var(--text-muted); font-size: 0.72rem;">NEWS SOURCE</span>
                   <span class="num-cell" style="color: {% if news.sentiment_score is not none and news.sentiment_score > 0.15 %}var(--bullish){% elif news.sentiment_score is not none and news.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {% if news.sentiment_score is not none %}{{ news.sentiment_score }}{% else %}—{% endif %}
+                    Raw Score: {% if news.sentiment_score is not none %}{{ news.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ news.url }}" target="_blank">{{ news.title }}</a></p>

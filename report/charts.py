@@ -224,6 +224,14 @@ def build_candlestick_chart(ticker: str, prices: list[dict[str, Any]], summary: 
 
         target_text = f"Target: {pred_close:,.2f}" if currency == "HKD" else f"Target: {int(round(pred_close)):,}"
 
+        pred_fmt = f"{pred_close:,.2f}" if currency == "HKD" else f"{int(round(pred_close)):,}"
+        if has_range:
+            low_fmt = f"{float(p_low):,.2f}" if currency == "HKD" else f"{int(round(float(p_low))):,}"
+            high_fmt = f"{float(p_high):,.2f}" if currency == "HKD" else f"{int(round(float(p_high))):,}"
+            range_str = f"Range: {low_fmt} - {high_fmt} {currency}<br>"
+        else:
+            range_str = ""
+
         scatter_kwargs: dict[str, Any] = dict(
             x=[target_dt],
             y=[pred_close],
@@ -234,8 +242,8 @@ def build_candlestick_chart(ticker: str, prices: list[dict[str, Any]], summary: 
             textfont=dict(color="#fde047", size=10, family="ui-monospace"),
             marker=dict(symbol="star", size=12, color="#fde047", line=dict(color="#000", width=1)),
             hovertemplate=(
-                f"<b>Predicted Close (n+1)</b>: {pred_close} {currency}<br>"
-                + (f"Range: {p_low} - {p_high} {currency}<br>" if has_range else "")
+                f"<b>Predicted Close (n+1)</b>: {pred_fmt} {currency}<br>"
+                + range_str
                 + "<extra></extra>"
             ),
         )
@@ -466,6 +474,20 @@ def build_predictions_chart(pred_log_rows: list[dict[str, Any]]) -> str:
     return fig.to_html(include_plotlyjs=False, full_html=False)
 
 
+def _format_cell_price(val: Any, currency: str) -> str:
+    if val is None or val == "":
+        return "N/A"
+    try:
+        f_val = float(val)
+        if currency == "HKD":
+            return f"{f_val:,.2f} {currency}"
+        elif currency == "KRW":
+            return f"{int(round(f_val)):,} {currency}"
+        return f"{f_val:,.2f} {currency}"
+    except (ValueError, TypeError):
+        return f"{val} {currency}"
+
+
 def export_leaderboard_image(summaries: list[dict[str, Any]], output_path: Path) -> None:
     """Exports a clean high-resolution leaderboard image as leaderboard.png using Kaleido."""
     # Build a clean summary table
@@ -474,12 +496,7 @@ def export_leaderboard_image(summaries: list[dict[str, Any]], output_path: Path)
     tickers = [s.get("ticker", "") for s in sorted_s]
     names = [s.get("name", "") for s in sorted_s]
     exchanges = [s.get("exchange", "") for s in sorted_s]
-    prices = [
-        f"{s['current_price']} {s.get('currency', '')}"
-        if s.get("current_price") is not None
-        else "N/A"
-        for s in sorted_s
-    ]
+    prices = [_format_cell_price(s.get("current_price"), s.get("currency", "")) for s in sorted_s]
     mentions = [str(s.get("mentions_10d", 0)) for s in sorted_s]
     sentiments = [
         f"{s['sentiment_score']:+.2f}"
@@ -493,9 +510,7 @@ def export_leaderboard_image(summaries: list[dict[str, Any]], output_path: Path)
         for s in sorted_s
     ]
     preds = [
-        f"{s['prediction']['predicted_close']} {s.get('currency', '')}"
-        if (s.get("prediction") and s["prediction"].get("predicted_close") is not None)
-        else "N/A"
+        _format_cell_price((s.get("prediction") or {}).get("predicted_close"), s.get("currency", ""))
         for s in sorted_s
     ]
 
@@ -509,7 +524,7 @@ def export_leaderboard_image(summaries: list[dict[str, Any]], output_path: Path)
                         "<b>NAME</b>",
                         "<b>PRICE</b>",
                         "<b>10D MENTIONS</b>",
-                        "<b>SENTIMENT</b>",
+                        "<b>RAW SENTIMENT</b>",
                         "<b>DIRECTION</b>",
                         "<b>POSITION</b>",
                         "<b>PRED CLOSE</b>",
