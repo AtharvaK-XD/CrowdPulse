@@ -1,0 +1,257 @@
+{
+  "overall": {
+    "model": {
+      "mae": 3.42,
+      "rmse": 4.88,
+      "mape": 0.0165,
+      "directional_accuracy": 0.65,
+      "n_predictions": 100
+    },
+    "naive": {
+      "mae": 4.72,
+      "rmse": 6.73,
+      "mape": 0.0228,
+      "directional_accuracy": 0.471,
+      "n_predictions": 100
+    },
+    "no_sentiment": {
+      "mae": 4.07,
+      "rmse": 5.81,
+      "mape": 0.0196,
+      "directional_accuracy": 0.546,
+      "n_predictions": 100
+    }
+  },
+  "per_ticker": {
+    "0700.HK": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "9988.HK": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "3690.HK": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "1810.HK": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "1211.HK": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "005930.KS": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "000660.KS": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "035420.KS": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "035720.KS": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    },
+    "005380.KS": {
+      "model": {
+        "mae": 3.42,
+        "rmse": 4.88,
+        "mape": 0.0165,
+        "directional_accuracy": 0.65,
+        "n_predictions": 10
+      },
+      "naive": {
+        "mae": 4.62,
+        "rmse": 6.59,
+        "mape": 0.0223,
+        "directional_accuracy": 0.481,
+        "n_predictions": 10
+      },
+      "no_sentiment": {
+        "mae": 4.04,
+        "rmse": 5.76,
+        "mape": 0.0195,
+        "directional_accuracy": 0.551,
+        "n_predictions": 10
+      }
+    }
+  }
+}

@@ -1,0 +1,706 @@
+[
+  {
+    "exchange": "HKEX",
+    "ticker": "0700.HK",
+    "name": "Tencent",
+    "currency": "HKD",
+    "current_price": 415.13,
+    "as_of": "2026-11-20",
+    "mentions_10d": 236,
+    "mentions_change_pct": -9.9,
+    "sentiment_score": 0.41,
+    "news_sentiment": 0.42,
+    "direction": "bullish",
+    "confidence": 0.69,
+    "support": [
+      400.6,
+      388.15
+    ],
+    "resistance": [
+      429.66,
+      444.19
+    ],
+    "position": {
+      "side": "long",
+      "entry": 415.13,
+      "stop": 400.6,
+      "target": 429.66,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 421.12,
+      "low": 414.8,
+      "high": 427.44
+    },
+    "top_posts": [
+      {
+        "source": "aastocks",
+        "text": "今日大单买入明显，主力资金持续吸筹，支撑位稳固，目标价看向更高区间。",
+        "sentiment_score": 0.432,
+        "url": "https://aastocks.example.com/post/1142"
+      },
+      {
+        "source": "aastocks",
+        "text": "南向资金持续净流入，港股互联网板块估值处于历史低位，技术形态突破阻力位，看好后市表现。",
+        "sentiment_score": 0.311,
+        "url": "https://aastocks.example.com/post/1098"
+      },
+      {
+        "source": "lihkg",
+        "text": "南向资金持续净流入，港股互联网板块估值处于历史低位，技术形态突破阻力位，看好后市表现。",
+        "sentiment_score": 0.51,
+        "url": "https://lihkg.example.com/post/1232"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "Tencent: Autonomous driving rollout accelerates across tier-1 cities",
+        "url": "https://caixinglobal.com/article/0700_HK_100",
+        "sentiment_score": 0.122
+      },
+      {
+        "title": "Tencent: New regulatory guidelines clarify cross-border data transfer framework",
+        "url": "https://reuters.com/article/0700_HK_101",
+        "sentiment_score": 0.444
+      },
+      {
+        "title": "Tencent: Hang Seng Tech Index rallies as overseas capital flows return",
+        "url": "https://bloomberg.com/article/0700_HK_102",
+        "sentiment_score": 0.336
+      }
+    ]
+  },
+  {
+    "exchange": "HKEX",
+    "ticker": "9988.HK",
+    "name": "Alibaba",
+    "currency": "HKD",
+    "current_price": 66.48,
+    "as_of": "2026-11-20",
+    "mentions_10d": 158,
+    "mentions_change_pct": 23.6,
+    "sentiment_score": -0.0,
+    "news_sentiment": -0.02,
+    "direction": "neutral",
+    "confidence": 0.46,
+    "support": [
+      64.15,
+      62.16
+    ],
+    "resistance": [
+      68.81,
+      71.13
+    ],
+    "position": {
+      "side": "none",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "risk_reward": null
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 66.7,
+      "low": 65.7,
+      "high": 67.7
+    },
+    "top_posts": [
+      {
+        "source": "aastocks",
+        "text": "目前在箱体区间震荡整理，多空双方胶着，等待新的催化剂或财报指引，建议观望。",
+        "sentiment_score": -0.046,
+        "url": "https://aastocks.example.com/post/1386"
+      },
+      {
+        "source": "futu",
+        "text": "目前在箱体区间震荡整理，多空双方胶着，等待新的催化剂或财报指引，建议观望。",
+        "sentiment_score": 0.086,
+        "url": "https://futu.example.com/post/1304"
+      },
+      {
+        "source": "aastocks",
+        "text": "估值合理，股息率有一定防御性，但在缺乏增量资金前难有大行情，持股观望。",
+        "sentiment_score": 0.119,
+        "url": "https://aastocks.example.com/post/1282"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "Alibaba: Tech giant reports double-digit cloud revenue growth in Q3",
+        "url": "https://scmp.com/article/9988_HK_100",
+        "sentiment_score": -0.043
+      },
+      {
+        "title": "Alibaba: Hang Seng Tech Index rallies as overseas capital flows return",
+        "url": "https://bloomberg.com/article/9988_HK_101",
+        "sentiment_score": -0.133
+      },
+      {
+        "title": "Alibaba: Hang Seng Tech Index rallies as overseas capital flows return",
+        "url": "https://bloomberg.com/article/9988_HK_102",
+        "sentiment_score": -0.055
+      }
+    ]
+  },
+  {
+    "exchange": "HKEX",
+    "ticker": "3690.HK",
+    "name": "Meituan",
+    "currency": "HKD",
+    "current_price": 143.24,
+    "as_of": "2026-11-20",
+    "mentions_10d": 160,
+    "mentions_change_pct": 1.8,
+    "sentiment_score": -0.42,
+    "news_sentiment": -0.35,
+    "direction": "bearish",
+    "confidence": 0.65,
+    "support": [
+      138.23,
+      133.93
+    ],
+    "resistance": [
+      148.25,
+      153.27
+    ],
+    "position": {
+      "side": "short",
+      "entry": 143.24,
+      "stop": 148.25,
+      "target": 138.23,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 141.3,
+      "low": 139.18,
+      "high": 143.42
+    },
+    "top_posts": [
+      {
+        "source": "aastocks",
+        "text": "政策监管预期仍有不确定性，估值修复面临天花板，后市保持谨慎观望态度。",
+        "sentiment_score": -0.524,
+        "url": "https://aastocks.example.com/post/1498"
+      },
+      {
+        "source": "aastocks",
+        "text": "大盘走弱，外资流出压力较大，短期缺乏催化剂，上方套牢盘较重，建议减仓规避风险。",
+        "sentiment_score": -0.55,
+        "url": "https://aastocks.example.com/post/1488"
+      },
+      {
+        "source": "futu",
+        "text": "政策监管预期仍有不确定性，估值修复面临天花板，后市保持谨慎观望态度。",
+        "sentiment_score": -0.402,
+        "url": "https://futu.example.com/post/1494"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "Meituan: Hang Seng Tech Index rallies as overseas capital flows return",
+        "url": "https://bloomberg.com/article/3690_HK_100",
+        "sentiment_score": -0.243
+      },
+      {
+        "title": "Meituan: Hang Seng Tech Index rallies as overseas capital flows return",
+        "url": "https://bloomberg.com/article/3690_HK_101",
+        "sentiment_score": -0.377
+      },
+      {
+        "title": "Meituan: Autonomous driving rollout accelerates across tier-1 cities",
+        "url": "https://caixinglobal.com/article/3690_HK_102",
+        "sentiment_score": -0.488
+      }
+    ]
+  },
+  {
+    "exchange": "HKEX",
+    "ticker": "1810.HK",
+    "name": "Xiaomi",
+    "currency": "HKD",
+    "current_price": 24.87,
+    "as_of": "2026-11-20",
+    "mentions_10d": 210,
+    "mentions_change_pct": 20.5,
+    "sentiment_score": 0.39,
+    "news_sentiment": 0.42,
+    "direction": "bullish",
+    "confidence": 0.74,
+    "support": [
+      24.0,
+      23.25
+    ],
+    "resistance": [
+      25.74,
+      26.61
+    ],
+    "position": {
+      "side": "long",
+      "entry": 24.87,
+      "stop": 24.0,
+      "target": 25.74,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 25.31,
+      "low": 24.93,
+      "high": 25.69
+    },
+    "top_posts": [
+      {
+        "source": "futu",
+        "text": "业绩发布会指引乐观，海外游戏扩张势头良好，现金流充沛，回购力度加大，强烈推荐持有。",
+        "sentiment_score": 0.196,
+        "url": "https://futu.example.com/post/1699"
+      },
+      {
+        "source": "futu",
+        "text": "腾讯Q3业绩超预期，微信视频号广告收入增长强劲，AI大模型逐步落地，现价极具吸引力，继续加仓！",
+        "sentiment_score": 0.349,
+        "url": "https://futu.example.com/post/1745"
+      },
+      {
+        "source": "futu",
+        "text": "业绩发布会指引乐观，海外游戏扩张势头良好，现金流充沛，回购力度加大，强烈推荐持有。",
+        "sentiment_score": 0.728,
+        "url": "https://futu.example.com/post/1555"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "Xiaomi: Hang Seng Tech Index rallies as overseas capital flows return",
+        "url": "https://bloomberg.com/article/1810_HK_100",
+        "sentiment_score": 0.734
+      },
+      {
+        "title": "Xiaomi: Tech giant reports double-digit cloud revenue growth in Q3",
+        "url": "https://scmp.com/article/1810_HK_101",
+        "sentiment_score": 0.119
+      },
+      {
+        "title": "Xiaomi: Brokerage upgrades sector outlook citing robust buyback programs",
+        "url": "https://aastocks.com/article/1810_HK_102",
+        "sentiment_score": 0.172
+      }
+    ]
+  },
+  {
+    "exchange": "HKEX",
+    "ticker": "1211.HK",
+    "name": "BYD",
+    "currency": "HKD",
+    "current_price": 376.29,
+    "as_of": "2026-11-20",
+    "mentions_10d": 209,
+    "mentions_change_pct": -4.1,
+    "sentiment_score": 0.43,
+    "news_sentiment": 0.35,
+    "direction": "bullish",
+    "confidence": 0.62,
+    "support": [
+      363.12,
+      351.83
+    ],
+    "resistance": [
+      389.46,
+      402.63
+    ],
+    "position": {
+      "side": "long",
+      "entry": 376.29,
+      "stop": 363.12,
+      "target": 389.46,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 381.15,
+      "low": 375.43,
+      "high": 386.87
+    },
+    "top_posts": [
+      {
+        "source": "futu",
+        "text": "腾讯Q3业绩超预期，微信视频号广告收入增长强劲，AI大模型逐步落地，现价极具吸引力，继续加仓！",
+        "sentiment_score": 0.37,
+        "url": "https://futu.example.com/post/1928"
+      },
+      {
+        "source": "aastocks",
+        "text": "业绩发布会指引乐观，海外游戏扩张势头良好，现金流充沛，回购力度加大，强烈推荐持有。",
+        "sentiment_score": 0.293,
+        "url": "https://aastocks.example.com/post/1792"
+      },
+      {
+        "source": "futu",
+        "text": "今日大单买入明显，主力资金持续吸筹，支撑位稳固，目标价看向更高区间。",
+        "sentiment_score": 0.336,
+        "url": "https://futu.example.com/post/1896"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "BYD: Autonomous driving rollout accelerates across tier-1 cities",
+        "url": "https://caixinglobal.com/article/1211_HK_100",
+        "sentiment_score": 0.064
+      },
+      {
+        "title": "BYD: New regulatory guidelines clarify cross-border data transfer framework",
+        "url": "https://reuters.com/article/1211_HK_101",
+        "sentiment_score": 0.013
+      },
+      {
+        "title": "BYD: New regulatory guidelines clarify cross-border data transfer framework",
+        "url": "https://reuters.com/article/1211_HK_102",
+        "sentiment_score": 0.506
+      }
+    ]
+  },
+  {
+    "exchange": "KRX",
+    "ticker": "005930.KS",
+    "name": "Samsung Electronics",
+    "currency": "KRW",
+    "current_price": 44758,
+    "as_of": "2026-11-20",
+    "mentions_10d": 147,
+    "mentions_change_pct": -0.3,
+    "sentiment_score": -0.44,
+    "news_sentiment": -0.43,
+    "direction": "bearish",
+    "confidence": 0.63,
+    "support": [
+      43191,
+      41849
+    ],
+    "resistance": [
+      46325,
+      47891
+    ],
+    "position": {
+      "side": "short",
+      "entry": 44758,
+      "stop": 46325,
+      "target": 43191,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 44289,
+      "low": 43625,
+      "high": 44953
+    },
+    "top_posts": [
+      {
+        "source": "naver",
+        "text": "글로벌 경기 둔화 우려와 반도체 업황 피크아웃 논란 지속. 외인 매도세 강해 단기 지지선 이탈 위험 큼.",
+        "sentiment_score": -0.258,
+        "url": "https://naver.example.com/post/2045"
+      },
+      {
+        "source": "daum",
+        "text": "공매도 잔고 증가 및 환율 불안으로 외국인 수급 이탈 심화. 당분간 관망 추천.",
+        "sentiment_score": -0.281,
+        "url": "https://daum.example.com/post/2115"
+      },
+      {
+        "source": "daum",
+        "text": "공매도 잔고 증가 및 환율 불안으로 외국인 수급 이탈 심화. 당분간 관망 추천.",
+        "sentiment_score": -0.475,
+        "url": "https://daum.example.com/post/2001"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "Samsung Electronics: Bank of Korea holds benchmark rate steady amid currency fluctuations",
+        "url": "https://yonhapnews.co.kr/article/005930_KS_100",
+        "sentiment_score": -0.499
+      },
+      {
+        "title": "Samsung Electronics: Semiconductor export volume hits fresh high on AI server boom",
+        "url": "https://kedglobal.com/article/005930_KS_101",
+        "sentiment_score": -0.123
+      },
+      {
+        "title": "Samsung Electronics: Bank of Korea holds benchmark rate steady amid currency fluctuations",
+        "url": "https://yonhapnews.co.kr/article/005930_KS_102",
+        "sentiment_score": -0.478
+      }
+    ]
+  },
+  {
+    "exchange": "KRX",
+    "ticker": "000660.KS",
+    "name": "SK Hynix",
+    "currency": "KRW",
+    "current_price": 145159,
+    "as_of": "2026-11-20",
+    "mentions_10d": 146,
+    "mentions_change_pct": -13.3,
+    "sentiment_score": 0.44,
+    "news_sentiment": 0.47,
+    "direction": "bullish",
+    "confidence": 0.7,
+    "support": [
+      140078,
+      135724
+    ],
+    "resistance": [
+      150240,
+      155320
+    ],
+    "position": {
+      "side": "long",
+      "entry": 145159,
+      "stop": 140078,
+      "target": 150240,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 147626,
+      "low": 145412,
+      "high": 149840
+    },
+    "top_posts": [
+      {
+        "source": "naver",
+        "text": "외국인과 기관의 강력한 순매수 유입 중. 실적 턴어라운드 본격화되며 HBM 및 메모리 반도체 수요 폭발적 증가 예상.",
+        "sentiment_score": 0.472,
+        "url": "https://naver.example.com/post/2193"
+      },
+      {
+        "source": "naver",
+        "text": "AI 반도체 밸류체인 독점적 지위 유지 중. 내년 영업이익 컨센서스 상향 조정 소식에 매수세 집중.",
+        "sentiment_score": 0.492,
+        "url": "https://naver.example.com/post/2178"
+      },
+      {
+        "source": "daum",
+        "text": "차트상 20일선 골든크로스 발생! 강력한 지지선 확인되었고 다음 목표가까지 홀딩합니다.",
+        "sentiment_score": 0.331,
+        "url": "https://daum.example.com/post/2183"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "SK Hynix: Automaker expands global EV production hub with solid-state investment",
+        "url": "https://koreaherald.com/article/000660_KS_100",
+        "sentiment_score": 0.767
+      },
+      {
+        "title": "SK Hynix: Semiconductor export volume hits fresh high on AI server boom",
+        "url": "https://kedglobal.com/article/000660_KS_101",
+        "sentiment_score": 0.345
+      },
+      {
+        "title": "SK Hynix: Semiconductor export volume hits fresh high on AI server boom",
+        "url": "https://kedglobal.com/article/000660_KS_102",
+        "sentiment_score": 0.443
+      }
+    ]
+  },
+  {
+    "exchange": "KRX",
+    "ticker": "035420.KS",
+    "name": "NAVER",
+    "currency": "KRW",
+    "current_price": 160088,
+    "as_of": "2026-11-20",
+    "mentions_10d": 161,
+    "mentions_change_pct": 5.8,
+    "sentiment_score": -0.0,
+    "news_sentiment": -0.01,
+    "direction": "neutral",
+    "confidence": 0.42,
+    "support": [
+      154485,
+      149682
+    ],
+    "resistance": [
+      165691,
+      171294
+    ],
+    "position": {
+      "side": "none",
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "risk_reward": null
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 159866,
+      "low": 157468,
+      "high": 162264
+    },
+    "top_posts": [
+      {
+        "source": "daum",
+        "text": "거래량 부족으로 방향성 탐색 국면. 무리한 진입보다는 확인 매매가 바람직해 보임.",
+        "sentiment_score": -0.033,
+        "url": "https://daum.example.com/post/2301"
+      },
+      {
+        "source": "daum",
+        "text": "실적 발표 앞두고 눈치보기 장세 이어짐. 호재와 악재가 팽팽히 맞서는 중.",
+        "sentiment_score": -0.111,
+        "url": "https://daum.example.com/post/2403"
+      },
+      {
+        "source": "naver",
+        "text": "실적 발표 앞두고 눈치보기 장세 이어짐. 호재와 악재가 팽팽히 맞서는 중.",
+        "sentiment_score": -0.072,
+        "url": "https://naver.example.com/post/2359"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "NAVER: Foreign investors snap up large-cap tech shares on valuation appeal",
+        "url": "https://mk.co.kr/article/035420_KS_100",
+        "sentiment_score": 0.049
+      },
+      {
+        "title": "NAVER: Automaker expands global EV production hub with solid-state investment",
+        "url": "https://koreaherald.com/article/035420_KS_101",
+        "sentiment_score": -0.17
+      },
+      {
+        "title": "NAVER: Domestic AI platform secures massive cloud enterprise contracts",
+        "url": "https://etnews.com/article/035420_KS_102",
+        "sentiment_score": -0.095
+      }
+    ]
+  },
+  {
+    "exchange": "KRX",
+    "ticker": "035720.KS",
+    "name": "Kakao",
+    "currency": "KRW",
+    "current_price": 39957,
+    "as_of": "2026-11-20",
+    "mentions_10d": 176,
+    "mentions_change_pct": 8.7,
+    "sentiment_score": -0.38,
+    "news_sentiment": 0.0,
+    "direction": "bearish",
+    "confidence": 0.68,
+    "support": [
+      38559,
+      37360
+    ],
+    "resistance": [
+      41355,
+      42754
+    ],
+    "position": {
+      "side": "short",
+      "entry": 39957,
+      "stop": 41355,
+      "target": 38559,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": 39655,
+      "low": 39060,
+      "high": 40250
+    },
+    "top_posts": [
+      {
+        "source": "daum",
+        "text": "글로벌 경기 둔화 우려와 반도체 업황 피크아웃 논란 지속. 외인 매도세 강해 단기 지지선 이탈 위험 큼.",
+        "sentiment_score": -0.347,
+        "url": "https://daum.example.com/post/2554"
+      },
+      {
+        "source": "blind",
+        "text": "실적 가이던스 하향 조정 충격. 개인들만 물량 받는 중이라 추가 하락 가능성 열어둬야 합니다.",
+        "sentiment_score": -0.31,
+        "url": "https://blind.example.com/post/2559"
+      },
+      {
+        "source": "blind",
+        "text": "공매도 잔고 증가 및 환율 불안으로 외국인 수급 이탈 심화. 당분간 관망 추천.",
+        "sentiment_score": -0.534,
+        "url": "https://blind.example.com/post/2551"
+      }
+    ],
+    "top_news": []
+  },
+  {
+    "exchange": "KRX",
+    "ticker": "005380.KS",
+    "name": "Hyundai Motor",
+    "currency": "KRW",
+    "current_price": 209734,
+    "as_of": "2026-11-20",
+    "mentions_10d": 76,
+    "mentions_change_pct": 25.5,
+    "sentiment_score": 0.36,
+    "news_sentiment": 0.36,
+    "direction": "bullish",
+    "confidence": 0.75,
+    "support": [
+      202393,
+      196101
+    ],
+    "resistance": [
+      217075,
+      224415
+    ],
+    "position": {
+      "side": "long",
+      "entry": 209734,
+      "stop": 202393,
+      "target": 217075,
+      "risk_reward": 1.0
+    },
+    "prediction": {
+      "target_date": "2026-11-21",
+      "predicted_close": null,
+      "low": null,
+      "high": null
+    },
+    "top_posts": [
+      {
+        "source": "naver",
+        "text": "바닥 확인 완료. 분할 매수로 대응하면 연말까지 유의미한 수익률 기대해볼 만함.",
+        "sentiment_score": 0.428,
+        "url": "https://naver.example.com/post/2616"
+      },
+      {
+        "source": "naver",
+        "text": "바닥 확인 완료. 분할 매수로 대응하면 연말까지 유의미한 수익률 기대해볼 만함.",
+        "sentiment_score": 0.463,
+        "url": "https://naver.example.com/post/2640"
+      },
+      {
+        "source": "naver",
+        "text": "외국인과 기관의 강력한 순매수 유입 중. 실적 턴어라운드 본격화되며 HBM 및 메모리 반도체 수요 폭발적 증가 예상.",
+        "sentiment_score": 0.172,
+        "url": "https://naver.example.com/post/2662"
+      }
+    ],
+    "top_news": [
+      {
+        "title": "Hyundai Motor: Domestic AI platform secures massive cloud enterprise contracts",
+        "url": "https://etnews.com/article/005380_KS_100",
+        "sentiment_score": 0.207
+      },
+      {
+        "title": "Hyundai Motor: Domestic AI platform secures massive cloud enterprise contracts",
+        "url": "https://etnews.com/article/005380_KS_101",
+        "sentiment_score": 0.317
+      },
+      {
+        "title": "Hyundai Motor: Foreign investors snap up large-cap tech shares on valuation appeal",
+        "url": "https://mk.co.kr/article/005380_KS_102",
+        "sentiment_score": 0.21
+      }
+    ]
+  }
+]
