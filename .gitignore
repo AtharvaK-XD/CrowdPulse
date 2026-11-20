@@ -1,0 +1,12 @@
+# Secrets
+.env
+
+# Python caches
+__pycache__/
+.pytest_cache/
+
+# Raw API responses (backend only, never committed)
+data/raw/
+
+# Build outputs
+report.html

@@ -1,0 +1,78 @@
+{
+  "_note": "Hand-made Exa search_and_contents results per query for 0700.HK. 'now' in tests is 2026-11-20T09:00:00Z.",
+  "Tencent 0700.HK stock": [
+    {
+      "id": "a1",
+      "url": "https://www.reuters.com/technology/tencent-q3-results-2026-11-13/",
+      "title": "Tencent third-quarter profit beats estimates on gaming, ads",
+      "published_date": "2026-11-13T09:45:00.000Z",
+      "author": "Reuters Staff",
+      "score": 0.41,
+      "text": "Tencent Holdings reported third-quarter profit above analyst estimates...",
+      "summary": "Tencent's Q3 net profit rose 18%, beating estimates as gaming and advertising revenue grew."
+    },
+    {
+      "id": "a2",
+      "url": "https://www.scmp.com/business/article/3300001/tencent-shares-slip",
+      "title": "Tencent shares slip as regulators eye gaming rules",
+      "published_date": "2026-11-18T03:10:00.000Z",
+      "author": null,
+      "score": 0.38,
+      "text": "Shares of Tencent fell 2.1% in Hong Kong on Tuesday...",
+      "summary": "Tencent fell 2.1% after reports of draft gaming rules."
+    },
+    {
+      "id": "a3",
+      "url": "https://example-old.com/tencent-2026-10-01",
+      "title": "Tencent October outlook",
+      "published_date": "2026-10-01T00:00:00.000Z",
+      "author": null,
+      "score": 0.2,
+      "text": "Old article outside the window.",
+      "summary": "Old."
+    },
+    {
+      "id": "a4",
+      "url": "https://nodate.example.com/tencent",
+      "title": "Undated Tencent piece",
+      "published_date": null,
+      "author": null,
+      "score": 0.1,
+      "text": "No date.",
+      "summary": "No date."
+    }
+  ],
+  "騰訊 股價": [
+    {
+      "id": "b1",
+      "url": "https://REUTERS.com/technology/tencent-q3-results-2026-11-13",
+      "title": "Tencent third-quarter profit beats estimates (dup)",
+      "published_date": "2026-11-13T09:45:00.000Z",
+      "author": null,
+      "score": 0.3,
+      "text": "Duplicate of a1 with different case and no trailing slash.",
+      "summary": "Duplicate."
+    },
+    {
+      "id": "b2",
+      "url": "https://www.aastocks.com/tc/stocks/news/aafn-con/NOW.1400001/popular-news",
+      "title": "騰訊股價突破400元 大行上調目標價",
+      "published_date": "2026-11-19T02:30:00.000Z",
+      "author": null,
+      "score": 0.35,
+      "text": "騰訊控股今早股價突破400元...",
+      "summary": ""
+    },
+    {
+      "id": "b3",
+      "url": "https://future.example.com/tencent",
+      "title": "Future-dated article",
+      "published_date": "2026-11-21T00:00:00.000Z",
+      "author": null,
+      "score": 0.1,
+      "text": "Should be dropped: after 'now'.",
+      "summary": "Future."
+    }
+  ],
+  "騰訊控股": []
+}

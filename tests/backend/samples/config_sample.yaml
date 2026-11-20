@@ -1,0 +1,38 @@
+# Test copy of the proposed config.yaml. Used only by offline tests.
+lookback_days: 10
+price_history_days: 120
+
+exchanges:
+  HKEX:
+    timezone: Asia/Hong_Kong      # HKT, UTC+8
+    close_utc: "08:00"
+    currency: HKD
+    sources: [futu, aastocks]
+    backup_sources: [lihkg]
+  KRX:
+    timezone: Asia/Seoul          # KST, UTC+9
+    close_utc: "06:30"
+    currency: KRW
+    sources: [naver, daum]
+    backup_sources: [blind]
+
+tickers:
+  - {symbol: "0700.HK",   exchange: HKEX, name: Tencent,             keywords_en: ["Tencent 0700.HK stock"],            keywords_local: ["騰訊 股價", "騰訊控股"],   cashtags: ["$TCEHY"]}
+  - {symbol: "9988.HK",   exchange: HKEX, name: Alibaba,             keywords_en: ["Alibaba 9988.HK stock"],            keywords_local: ["阿里巴巴 股價", "阿里"],   cashtags: ["$BABA"]}
+  - {symbol: "3690.HK",   exchange: HKEX, name: Meituan,             keywords_en: ["Meituan 3690.HK stock"],            keywords_local: ["美團 股價", "美團"],       cashtags: ["$MPNGY"]}
+  - {symbol: "1810.HK",   exchange: HKEX, name: Xiaomi,              keywords_en: ["Xiaomi 1810.HK stock"],             keywords_local: ["小米 股價", "小米集團"],   cashtags: ["$XIACY"]}
+  - {symbol: "1211.HK",   exchange: HKEX, name: BYD,                 keywords_en: ["BYD 1211.HK stock"],                keywords_local: ["比亞迪 股價", "比亞迪"],   cashtags: ["$BYDDY"]}
+  - {symbol: "005930.KS", exchange: KRX,  name: Samsung Electronics, keywords_en: ["Samsung Electronics 005930 stock"], keywords_local: ["삼성전자 주가", "삼성전자"], cashtags: []}
+  - {symbol: "000660.KS", exchange: KRX,  name: SK Hynix,            keywords_en: ["SK Hynix 000660 stock"],            keywords_local: ["SK하이닉스 주가", "하이닉스"], cashtags: []}
+  - {symbol: "035420.KS", exchange: KRX,  name: NAVER,               keywords_en: ["NAVER 035420 stock"],               keywords_local: ["네이버 주가", "NAVER 주가"], cashtags: []}
+  - {symbol: "035720.KS", exchange: KRX,  name: Kakao,               keywords_en: ["Kakao 035720 stock"],               keywords_local: ["카카오 주가", "카카오"],   cashtags: []}
+  - {symbol: "005380.KS", exchange: KRX,  name: Hyundai Motor,       keywords_en: ["Hyundai Motor 005380 stock"],       keywords_local: ["현대차 주가", "현대자동차"], cashtags: []}
+
+news:
+  results_per_query: 15           # plan says 10-20
+  max_text_chars: 2000
+
+apify:
+  max_retries: 3
+  timeout_secs: 900
+  use_residential_proxy: false
