@@ -524,6 +524,7 @@ def generate_fixtures(output_dir: Path, as_of_date: str = "2026-11-20") -> None:
                 "stop": stop_val,
                 "target": target_val,
                 "risk_reward": rr,
+                "note": "avoid / hedge: retail short selling is restricted in Hong Kong and Korea",
             }
             confidence = round(random.uniform(0.58, 0.75), 2)
         else:  # neutral

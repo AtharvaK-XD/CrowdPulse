@@ -5,8 +5,14 @@
 __pycache__/
 .pytest_cache/
 
-# Raw API responses (backend only, never committed)
+# Raw API responses and caches (backend only, never committed)
 data/raw/
+data/cache/
+
+# Pipeline runs (only data/outputs/sample/ is tracked in git)
+data/outputs/*
+!data/outputs/sample/
 
 # Build outputs
-report.html
+report*.html
+leaderboard_latest.png

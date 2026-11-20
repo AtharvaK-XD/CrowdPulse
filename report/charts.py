@@ -39,22 +39,22 @@ def build_bubble_chart(summaries: list[dict[str, Any]]) -> str:
         if not items:
             continue
 
-        x_vals = [s.get("sentiment_score", 0.0) for s in items]
-        y_vals = [s.get("mentions_10d", 0) for s in items]
+        x_vals = [s.get("sentiment_score") if s.get("sentiment_score") is not None else 0.0 for s in items]
+        y_vals = [s.get("mentions_10d") if s.get("mentions_10d") is not None else 0 for s in items]
         names = [f"{s.get('name')} ({s.get('ticker')})" for s in items]
         # Size based on mentions with minimum radius
-        sizes = [max(18, min(55, int(s.get("mentions_10d", 100) / 4))) for s in items]
+        sizes = [max(18, min(55, int((s.get("mentions_10d") or 100) / 4))) for s in items]
 
         custom_data = [
             (
-                s.get("ticker"),
-                s.get("name"),
-                s.get("current_price"),
-                s.get("currency"),
-                s.get("mentions_10d"),
-                s.get("sentiment_score"),
-                s.get("confidence"),
-                s.get("direction"),
+                s.get("ticker", ""),
+                s.get("name", ""),
+                s.get("current_price", "—"),
+                s.get("currency", ""),
+                s.get("mentions_10d", 0),
+                round(s["sentiment_score"], 2) if s.get("sentiment_score") is not None else "0.00",
+                s.get("confidence") if s.get("confidence") is not None else 0.0,
+                s.get("direction", "neutral"),
             )
             for s in items
         ]
@@ -156,61 +156,61 @@ def build_candlestick_chart(ticker: str, prices: list[dict[str, Any]], summary: 
     )
 
     # Support Lines (Green dashed)
-    supports = summary.get("support", [])
-    if len(supports) >= 1:
+    supports = summary.get("support", []) or []
+    if len(supports) >= 1 and supports[0] is not None:
         s1 = float(supports[0])
         fig.add_hline(
             y=s1,
             line_dash="dash",
             line_color=THEME["bullish"],
             line_width=1.5,
-            annotation_text=f"S1: {s1} {currency}",
+            annotation_text=f"S1: {s1:,.2f}" if currency == "HKD" else f"S1: {int(round(s1)):,}",
             annotation_position="bottom right",
             annotation_font_color=THEME["bullish"],
             annotation_font_size=10,
         )
-    if len(supports) >= 2:
+    if len(supports) >= 2 and supports[1] is not None:
         s2 = float(supports[1])
         fig.add_hline(
             y=s2,
             line_dash="dot",
             line_color=THEME["bullish"],
             line_width=1,
-            annotation_text=f"S2: {s2} {currency}",
+            annotation_text=f"S2: {s2:,.2f}" if currency == "HKD" else f"S2: {int(round(s2)):,}",
             annotation_position="bottom right",
             annotation_font_color=THEME["bullish"],
             annotation_font_size=9,
         )
 
     # Resistance Lines (Red dashed)
-    resistances = summary.get("resistance", [])
-    if len(resistances) >= 1:
+    resistances = summary.get("resistance", []) or []
+    if len(resistances) >= 1 and resistances[0] is not None:
         r1 = float(resistances[0])
         fig.add_hline(
             y=r1,
             line_dash="dash",
             line_color=THEME["bearish"],
             line_width=1.5,
-            annotation_text=f"R1: {r1} {currency}",
+            annotation_text=f"R1: {r1:,.2f}" if currency == "HKD" else f"R1: {int(round(r1)):,}",
             annotation_position="top right",
             annotation_font_color=THEME["bearish"],
             annotation_font_size=10,
         )
-    if len(resistances) >= 2:
+    if len(resistances) >= 2 and resistances[1] is not None:
         r2 = float(resistances[1])
         fig.add_hline(
             y=r2,
             line_dash="dot",
             line_color=THEME["bearish"],
             line_width=1,
-            annotation_text=f"R2: {r2} {currency}",
+            annotation_text=f"R2: {r2:,.2f}" if currency == "HKD" else f"R2: {int(round(r2)):,}",
             annotation_position="top right",
             annotation_font_color=THEME["bearish"],
             annotation_font_size=9,
         )
 
     # Next-Day Prediction (n+1) Point & Whisker Range
-    pred = summary.get("prediction", {})
+    pred = summary.get("prediction", {}) or {}
     target_dt = pred.get("target_date")
     pred_close = pred.get("predicted_close")
     p_low = pred.get("low")
@@ -218,35 +218,39 @@ def build_candlestick_chart(ticker: str, prices: list[dict[str, Any]], summary: 
 
     if target_dt and pred_close is not None:
         pred_close = float(pred_close)
+        has_range = p_high is not None and p_low is not None
         error_plus = float(p_high) - pred_close if p_high is not None else 0
         error_minus = pred_close - float(p_low) if p_low is not None else 0
 
-        fig.add_trace(
-            go.Scatter(
-                x=[target_dt],
-                y=[pred_close],
-                mode="markers+text",
-                name="Pred n+1 Close",
-                text=[f"Target: {pred_close}"],
-                textposition="top center",
-                textfont=dict(color="#fde047", size=10, family="ui-monospace"),
-                marker=dict(symbol="star", size=12, color="#fde047", line=dict(color="#000", width=1)),
-                error_y=dict(
-                    type="data",
-                    symmetric=False,
-                    array=[error_plus],
-                    arrayminus=[error_minus],
-                    color="#fde047",
-                    thickness=2,
-                    width=6,
-                ),
-                hovertemplate=(
-                    f"<b>Predicted Close (n+1)</b>: {pred_close} {currency}<br>"
-                    f"Range: {p_low} - {p_high} {currency}<br>"
-                    "<extra></extra>"
-                ),
-            )
+        target_text = f"Target: {pred_close:,.2f}" if currency == "HKD" else f"Target: {int(round(pred_close)):,}"
+
+        scatter_kwargs: dict[str, Any] = dict(
+            x=[target_dt],
+            y=[pred_close],
+            mode="markers+text",
+            name="Pred n+1 Close",
+            text=[target_text],
+            textposition="top center",
+            textfont=dict(color="#fde047", size=10, family="ui-monospace"),
+            marker=dict(symbol="star", size=12, color="#fde047", line=dict(color="#000", width=1)),
+            hovertemplate=(
+                f"<b>Predicted Close (n+1)</b>: {pred_close} {currency}<br>"
+                + (f"Range: {p_low} - {p_high} {currency}<br>" if has_range else "")
+                + "<extra></extra>"
+            ),
         )
+        if has_range:
+            scatter_kwargs["error_y"] = dict(
+                type="data",
+                symmetric=False,
+                array=[error_plus],
+                arrayminus=[error_minus],
+                color="#fde047",
+                thickness=2,
+                width=6,
+            )
+
+        fig.add_trace(go.Scatter(**scatter_kwargs))
 
     fig.update_layout(
         template="plotly_dark",
@@ -281,8 +285,13 @@ def build_volume_sentiment_chart(ticker: str, daily_rows: list[dict[str, Any]]) 
         return "<div class='empty-state'>Daily metrics unavailable</div>"
 
     dates = [d["date"] for d in t_daily]
-    mentions = [int(d["mentions"]) for d in t_daily]
-    sent_weighted = [float(d["social_sent_weighted"]) for d in t_daily]
+    mentions = [int(float(d["mentions"])) if d.get("mentions") not in (None, "") else 0 for d in t_daily]
+    sent_weighted = [
+        float(d["social_sent_weighted"])
+        if d.get("social_sent_weighted") not in (None, "")
+        else None
+        for d in t_daily
+    ]
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -404,8 +413,13 @@ def build_predictions_chart(pred_log_rows: list[dict[str, Any]]) -> str:
     if not pred_log_rows:
         return "<div class='empty-state'>No historical predictions logged</div>"
 
+    # Filter rows that have an error_pct
+    valid_rows = [r for r in pred_log_rows if r.get("error_pct") not in (None, "")]
+    if not valid_rows:
+        return "<div class='empty-state'>Prediction log pending: actual close prices have not yet settled for current forecast targets.</div>"
+
     # Sort by target_date
-    sorted_rows = sorted(pred_log_rows, key=lambda x: (x.get("target_date", ""), x.get("ticker", "")))
+    sorted_rows = sorted(valid_rows, key=lambda x: (x.get("target_date", ""), x.get("ticker", "")))
 
     fig = go.Figure()
 
@@ -457,15 +471,33 @@ def export_leaderboard_image(summaries: list[dict[str, Any]], output_path: Path)
     # Build a clean summary table
     sorted_s = sorted(summaries, key=lambda x: int(x.get("mentions_10d", 0)), reverse=True)
 
-    tickers = [s["ticker"] for s in sorted_s]
-    names = [s["name"] for s in sorted_s]
-    exchanges = [s["exchange"] for s in sorted_s]
-    prices = [f"{s['current_price']} {s['currency']}" for s in sorted_s]
-    mentions = [str(s["mentions_10d"]) for s in sorted_s]
-    sentiments = [f"{s['sentiment_score']:+.2f}" for s in sorted_s]
-    directions = [s["direction"].upper() for s in sorted_s]
-    positions = [s["position"]["side"].upper() for s in sorted_s]
-    preds = [f"{s['prediction']['predicted_close']} {s['currency']}" if s['prediction']['predicted_close'] else "N/A" for s in sorted_s]
+    tickers = [s.get("ticker", "") for s in sorted_s]
+    names = [s.get("name", "") for s in sorted_s]
+    exchanges = [s.get("exchange", "") for s in sorted_s]
+    prices = [
+        f"{s['current_price']} {s.get('currency', '')}"
+        if s.get("current_price") is not None
+        else "N/A"
+        for s in sorted_s
+    ]
+    mentions = [str(s.get("mentions_10d", 0)) for s in sorted_s]
+    sentiments = [
+        f"{s['sentiment_score']:+.2f}"
+        if s.get("sentiment_score") is not None
+        else "0.00"
+        for s in sorted_s
+    ]
+    directions = [(s.get("direction") or "neutral").upper() for s in sorted_s]
+    positions = [
+        ((s.get("position") or {}).get("side") or "NONE").upper()
+        for s in sorted_s
+    ]
+    preds = [
+        f"{s['prediction']['predicted_close']} {s.get('currency', '')}"
+        if (s.get("prediction") and s["prediction"].get("predicted_close") is not None)
+        else "N/A"
+        for s in sorted_s
+    ]
 
     fig = go.Figure(
         data=[

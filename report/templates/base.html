@@ -17,8 +17,8 @@
       --bullish-bg: rgba(16, 185, 129, 0.15);
       --bearish: #f43f5e;
       --bearish-bg: rgba(244, 63, 94, 0.15);
-      --neutral: #64748b;
-      --neutral-bg: rgba(100, 116, 139, 0.15);
+      --neutral: #94a3b8;
+      --neutral-bg: rgba(148, 163, 184, 0.15);
       --accent: #3b82f6;
       --accent-hover: #2563eb;
     }
@@ -300,8 +300,34 @@
     }
 
     .position-none {
-      background: rgba(100, 116, 139, 0.2);
+      background: rgba(148, 163, 184, 0.18);
       color: var(--neutral);
+    }
+
+    .position-note {
+      margin-top: 0.6rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #fca5a5;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      line-height: 1.4;
+    }
+
+    .neutral-note {
+      margin-top: 0.6rem;
+      padding: 0.45rem 0.75rem;
+      background: rgba(148, 163, 184, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
     }
 
     /* Sentiment Bar */
@@ -552,7 +578,7 @@
           </thead>
           <tbody>
             {% for s in hkex_summaries %}
-            <tr data-mentions="{{ s.mentions_10d }}" data-sentiment="{{ s.sentiment_score }}">
+            <tr data-mentions="{{ s.mentions_10d if s.mentions_10d is not none else 0 }}" data-sentiment="{{ s.sentiment_score if s.sentiment_score is not none else 0.0 }}">
               <td>
                 <div class="ticker-name">{{ s.name }}</div>
                 <div class="ticker-code">{{ s.ticker }}</div>
@@ -560,34 +586,38 @@
               <td class="num-cell">{{ s.current_price | format_price(s.currency) }} {{ s.currency }}</td>
               <td class="num-cell">
                 {{ s.mentions_10d | format_int }}
+                {% if s.mentions_change_pct is not none %}
                 <span style="font-size: 0.75rem; color: {% if s.mentions_change_pct >= 0 %}var(--bullish){% else %}var(--bearish){% endif %};">
                   ({% if s.mentions_change_pct >= 0 %}+{% endif %}{{ s.mentions_change_pct }}%)
                 </span>
+                {% endif %}
               </td>
               <td>
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <div class="sent-bar-wrap">
-                    <div class="sent-bar-fill" style="width: {{ (s.sentiment_score + 1) * 50 }}%; background: {% if s.sentiment_score > 0.15 %}var(--bullish){% elif s.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};"></div>
+                    <div class="sent-bar-fill" style="width: {{ ((s.sentiment_score if s.sentiment_score is not none else 0.0) + 1) * 50 }}%; background: {% if s.sentiment_score is not none and s.sentiment_score > 0.15 %}var(--bullish){% elif s.sentiment_score is not none and s.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};"></div>
                   </div>
-                  <span class="num-cell" style="font-size: 0.8rem;">{{ s.sentiment_score }}</span>
+                  <span class="num-cell" style="font-size: 0.8rem;">{% if s.sentiment_score is not none %}{{ s.sentiment_score }}{% else %}0.00{% endif %}</span>
                 </div>
               </td>
               <td>
-                <span class="badge badge-{{ s.direction }}">{{ s.direction }}</span>
+                <span class="badge badge-{{ s.direction or 'neutral' }}">{{ s.direction or 'neutral' }}</span>
               </td>
-              <td class="num-cell">{{ (s.confidence * 100) | round(0) | int }}%</td>
+              <td class="num-cell">{% if s.confidence is not none %}{{ (s.confidence * 100) | round(0) | int }}%{% else %}—{% endif %}</td>
               <td>
-                <span class="position-pill position-{{ s.position.side }}">{{ s.position.side | upper }}</span>
+                <span class="position-pill position-{{ (s.position.side or 'none') if s.position else 'none' }}">{{ ((s.position.side or 'none') if s.position else 'none') | upper }}</span>
               </td>
               <td class="num-cell">
-                {% if s.prediction.predicted_close %}
+                {% if s.prediction and s.prediction.predicted_close is not none %}
                   {{ s.prediction.predicted_close | format_price(s.currency) }}
-                  {% if s.prediction.predicted_close > s.current_price %}
-                    <span style="color: var(--bullish);">&uarr;</span>
-                  {% elif s.prediction.predicted_close < s.current_price %}
-                    <span style="color: var(--bearish);">&darr;</span>
-                  {% else %}
-                    <span style="color: var(--neutral);">&harr;</span>
+                  {% if s.current_price is not none %}
+                    {% if s.prediction.predicted_close > s.current_price %}
+                      <span style="color: var(--bullish);">&uarr;</span>
+                    {% elif s.prediction.predicted_close < s.current_price %}
+                      <span style="color: var(--bearish);">&darr;</span>
+                    {% else %}
+                      <span style="color: var(--neutral);">&harr;</span>
+                    {% endif %}
                   {% endif %}
                 {% else %}
                   <span style="color: var(--text-muted); font-size: 0.8rem;">N/A</span>
@@ -624,8 +654,14 @@
             </div>
             <div class="stock-price-box">
               <div class="stock-price-main">{{ s.current_price | format_price(s.currency) }} <span style="font-size: 0.8rem;">{{ s.currency }}</span></div>
-              <span class="badge badge-{{ s.direction }}">{{ s.direction }}</span>
+              <span class="badge badge-{{ s.direction or 'neutral' }}">{{ s.direction or 'neutral' }}</span>
             </div>
+          </div>
+
+          <!-- Key Technical Support/Resistance & News Sentiment Indicators -->
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem; padding: 0.35rem 0.5rem; background: rgba(0,0,0,0.25); border-radius: 6px; border: 1px solid var(--border);">
+            <span>S1: <strong style="color: var(--bullish);">{% if s.support and s.support[0] is not none %}{{ s.support[0] | format_price(s.currency) }}{% else %}—{% endif %}</strong> &bull; R1: <strong style="color: var(--bearish);">{% if s.resistance and s.resistance[0] is not none %}{{ s.resistance[0] | format_price(s.currency) }}{% else %}—{% endif %}</strong></span>
+            <span>News Sent: <strong style="color: {% if s.news_sentiment is not none and s.news_sentiment > 0.1 %}var(--bullish){% elif s.news_sentiment is not none and s.news_sentiment < -0.1 %}var(--bearish){% else %}var(--neutral){% endif %};">{% if s.news_sentiment is not none %}{{ s.news_sentiment }}{% else %}—{% endif %}</strong></span>
           </div>
 
           <!-- Candlestick Chart with Support/Resistance & n+1 Whisker -->
@@ -642,23 +678,33 @@
           <div class="position-box">
             <div class="pos-item">
               <span class="p-label">RECOMMENDED</span>
-              <span class="p-val position-pill position-{{ s.position.side }}">{{ s.position.side | upper }}</span>
+              <span class="p-val position-pill position-{{ (s.position.side or 'none') if s.position else 'none' }}">{{ ((s.position.side or 'none') if s.position else 'none') | upper }}</span>
             </div>
             <div class="pos-item">
               <span class="p-label">ENTRY / STOP</span>
               <span class="p-val">
-                {% if s.position.entry %}{{ s.position.entry | format_price(s.currency) }} / {{ s.position.stop | format_price(s.currency) }}{% else %}—{% endif %}
+                {% if s.position and s.position.entry and s.position.stop %}{{ s.position.entry | format_price(s.currency) }} / {{ s.position.stop | format_price(s.currency) }}{% else %}—{% endif %}
               </span>
             </div>
             <div class="pos-item">
               <span class="p-label">PROFIT TARGET</span>
-              <span class="p-val">{% if s.position.target %}{{ s.position.target | format_price(s.currency) }}{% else %}—{% endif %}</span>
+              <span class="p-val">{% if s.position and s.position.target %}{{ s.position.target | format_price(s.currency) }}{% else %}—{% endif %}</span>
             </div>
             <div class="pos-item">
               <span class="p-label">RISK / REWARD</span>
-              <span class="p-val">{% if s.position.risk_reward %}{{ s.position.risk_reward }}x{% else %}—{% endif %}</span>
+              <span class="p-val">{% if s.position and s.position.risk_reward %}{{ s.position.risk_reward }}x{% else %}—{% endif %}</span>
             </div>
           </div>
+          {% if s.position and s.position.note %}
+          <div class="position-note">
+            <span style="font-size: 0.95rem; line-height: 1;">&#9888;</span>
+            <div><strong>Position Notice:</strong> {{ s.position.note }}</div>
+          </div>
+          {% elif s.direction == 'neutral' and (not s.position or s.position.side == 'none') %}
+          <div class="neutral-note">
+            <span>Sentiment aligned with baseline &bull; Forecast & momentum balanced &bull; Hold / Sideline</span>
+          </div>
+          {% endif %}
 
           <!-- Top Social Posts -->
           <div class="feed-section">
@@ -668,8 +714,8 @@
               <div class="feed-item">
                 <div class="feed-item-header">
                   <span class="badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">{{ post.source | upper }}</span>
-                  <span class="num-cell" style="color: {% if post.sentiment_score > 0.15 %}var(--bullish){% elif post.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {{ post.sentiment_score }}
+                  <span class="num-cell" style="color: {% if post.sentiment_score is not none and post.sentiment_score > 0.15 %}var(--bullish){% elif post.sentiment_score is not none and post.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
+                    Score: {% if post.sentiment_score is not none %}{{ post.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ post.url }}" target="_blank">{{ post.text }}</a></p>
@@ -688,8 +734,8 @@
               <div class="feed-item">
                 <div class="feed-item-header">
                   <span style="color: var(--text-muted); font-size: 0.72rem;">NEWS SOURCE</span>
-                  <span class="num-cell" style="color: {% if news.sentiment_score > 0.15 %}var(--bullish){% elif news.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {{ news.sentiment_score }}
+                  <span class="num-cell" style="color: {% if news.sentiment_score is not none and news.sentiment_score > 0.15 %}var(--bullish){% elif news.sentiment_score is not none and news.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
+                    Score: {% if news.sentiment_score is not none %}{{ news.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ news.url }}" target="_blank">{{ news.title }}</a></p>
@@ -743,7 +789,7 @@
           </thead>
           <tbody>
             {% for s in krx_summaries %}
-            <tr data-mentions="{{ s.mentions_10d }}" data-sentiment="{{ s.sentiment_score }}">
+            <tr data-mentions="{{ s.mentions_10d if s.mentions_10d is not none else 0 }}" data-sentiment="{{ s.sentiment_score if s.sentiment_score is not none else 0.0 }}">
               <td>
                 <div class="ticker-name">{{ s.name }}</div>
                 <div class="ticker-code">{{ s.ticker }}</div>
@@ -751,34 +797,38 @@
               <td class="num-cell">{{ s.current_price | format_price(s.currency) }} {{ s.currency }}</td>
               <td class="num-cell">
                 {{ s.mentions_10d | format_int }}
+                {% if s.mentions_change_pct is not none %}
                 <span style="font-size: 0.75rem; color: {% if s.mentions_change_pct >= 0 %}var(--bullish){% else %}var(--bearish){% endif %};">
                   ({% if s.mentions_change_pct >= 0 %}+{% endif %}{{ s.mentions_change_pct }}%)
                 </span>
+                {% endif %}
               </td>
               <td>
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                   <div class="sent-bar-wrap">
-                    <div class="sent-bar-fill" style="width: {{ (s.sentiment_score + 1) * 50 }}%; background: {% if s.sentiment_score > 0.15 %}var(--bullish){% elif s.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};"></div>
+                    <div class="sent-bar-fill" style="width: {{ ((s.sentiment_score if s.sentiment_score is not none else 0.0) + 1) * 50 }}%; background: {% if s.sentiment_score is not none and s.sentiment_score > 0.15 %}var(--bullish){% elif s.sentiment_score is not none and s.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};"></div>
                   </div>
-                  <span class="num-cell" style="font-size: 0.8rem;">{{ s.sentiment_score }}</span>
+                  <span class="num-cell" style="font-size: 0.8rem;">{% if s.sentiment_score is not none %}{{ s.sentiment_score }}{% else %}0.00{% endif %}</span>
                 </div>
               </td>
               <td>
-                <span class="badge badge-{{ s.direction }}">{{ s.direction }}</span>
+                <span class="badge badge-{{ s.direction or 'neutral' }}">{{ s.direction or 'neutral' }}</span>
               </td>
-              <td class="num-cell">{{ (s.confidence * 100) | round(0) | int }}%</td>
+              <td class="num-cell">{% if s.confidence is not none %}{{ (s.confidence * 100) | round(0) | int }}%{% else %}—{% endif %}</td>
               <td>
-                <span class="position-pill position-{{ s.position.side }}">{{ s.position.side | upper }}</span>
+                <span class="position-pill position-{{ (s.position.side or 'none') if s.position else 'none' }}">{{ ((s.position.side or 'none') if s.position else 'none') | upper }}</span>
               </td>
               <td class="num-cell">
-                {% if s.prediction.predicted_close %}
+                {% if s.prediction and s.prediction.predicted_close is not none %}
                   {{ s.prediction.predicted_close | format_price(s.currency) }}
-                  {% if s.prediction.predicted_close > s.current_price %}
-                    <span style="color: var(--bullish);">&uarr;</span>
-                  {% elif s.prediction.predicted_close < s.current_price %}
-                    <span style="color: var(--bearish);">&darr;</span>
-                  {% else %}
-                    <span style="color: var(--neutral);">&harr;</span>
+                  {% if s.current_price is not none %}
+                    {% if s.prediction.predicted_close > s.current_price %}
+                      <span style="color: var(--bullish);">&uarr;</span>
+                    {% elif s.prediction.predicted_close < s.current_price %}
+                      <span style="color: var(--bearish);">&darr;</span>
+                    {% else %}
+                      <span style="color: var(--neutral);">&harr;</span>
+                    {% endif %}
                   {% endif %}
                 {% else %}
                   <span style="color: var(--text-muted); font-size: 0.8rem;">N/A</span>
@@ -815,8 +865,14 @@
             </div>
             <div class="stock-price-box">
               <div class="stock-price-main">{{ s.current_price | format_price(s.currency) }} <span style="font-size: 0.8rem;">{{ s.currency }}</span></div>
-              <span class="badge badge-{{ s.direction }}">{{ s.direction }}</span>
+              <span class="badge badge-{{ s.direction or 'neutral' }}">{{ s.direction or 'neutral' }}</span>
             </div>
+          </div>
+
+          <!-- Key Technical Support/Resistance & News Sentiment Indicators -->
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem; padding: 0.35rem 0.5rem; background: rgba(0,0,0,0.25); border-radius: 6px; border: 1px solid var(--border);">
+            <span>S1: <strong style="color: var(--bullish);">{% if s.support and s.support[0] is not none %}{{ s.support[0] | format_price(s.currency) }}{% else %}—{% endif %}</strong> &bull; R1: <strong style="color: var(--bearish);">{% if s.resistance and s.resistance[0] is not none %}{{ s.resistance[0] | format_price(s.currency) }}{% else %}—{% endif %}</strong></span>
+            <span>News Sent: <strong style="color: {% if s.news_sentiment is not none and s.news_sentiment > 0.1 %}var(--bullish){% elif s.news_sentiment is not none and s.news_sentiment < -0.1 %}var(--bearish){% else %}var(--neutral){% endif %};">{% if s.news_sentiment is not none %}{{ s.news_sentiment }}{% else %}—{% endif %}</strong></span>
           </div>
 
           <!-- Candlestick Chart with Support/Resistance & n+1 Whisker -->
@@ -833,23 +889,33 @@
           <div class="position-box">
             <div class="pos-item">
               <span class="p-label">RECOMMENDED</span>
-              <span class="p-val position-pill position-{{ s.position.side }}">{{ s.position.side | upper }}</span>
+              <span class="p-val position-pill position-{{ (s.position.side or 'none') if s.position else 'none' }}">{{ ((s.position.side or 'none') if s.position else 'none') | upper }}</span>
             </div>
             <div class="pos-item">
               <span class="p-label">ENTRY / STOP</span>
               <span class="p-val">
-                {% if s.position.entry %}{{ s.position.entry | format_price(s.currency) }} / {{ s.position.stop | format_price(s.currency) }}{% else %}—{% endif %}
+                {% if s.position and s.position.entry and s.position.stop %}{{ s.position.entry | format_price(s.currency) }} / {{ s.position.stop | format_price(s.currency) }}{% else %}—{% endif %}
               </span>
             </div>
             <div class="pos-item">
               <span class="p-label">PROFIT TARGET</span>
-              <span class="p-val">{% if s.position.target %}{{ s.position.target | format_price(s.currency) }}{% else %}—{% endif %}</span>
+              <span class="p-val">{% if s.position and s.position.target %}{{ s.position.target | format_price(s.currency) }}{% else %}—{% endif %}</span>
             </div>
             <div class="pos-item">
               <span class="p-label">RISK / REWARD</span>
-              <span class="p-val">{% if s.position.risk_reward %}{{ s.position.risk_reward }}x{% else %}—{% endif %}</span>
+              <span class="p-val">{% if s.position and s.position.risk_reward %}{{ s.position.risk_reward }}x{% else %}—{% endif %}</span>
             </div>
           </div>
+          {% if s.position and s.position.note %}
+          <div class="position-note">
+            <span style="font-size: 0.95rem; line-height: 1;">&#9888;</span>
+            <div><strong>Position Notice:</strong> {{ s.position.note }}</div>
+          </div>
+          {% elif s.direction == 'neutral' and (not s.position or s.position.side == 'none') %}
+          <div class="neutral-note">
+            <span>Sentiment aligned with baseline &bull; Forecast & momentum balanced &bull; Hold / Sideline</span>
+          </div>
+          {% endif %}
 
           <!-- Top Social Posts -->
           <div class="feed-section">
@@ -859,8 +925,8 @@
               <div class="feed-item">
                 <div class="feed-item-header">
                   <span class="badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">{{ post.source | upper }}</span>
-                  <span class="num-cell" style="color: {% if post.sentiment_score > 0.15 %}var(--bullish){% elif post.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {{ post.sentiment_score }}
+                  <span class="num-cell" style="color: {% if post.sentiment_score is not none and post.sentiment_score > 0.15 %}var(--bullish){% elif post.sentiment_score is not none and post.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
+                    Score: {% if post.sentiment_score is not none %}{{ post.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ post.url }}" target="_blank">{{ post.text }}</a></p>
@@ -879,8 +945,8 @@
               <div class="feed-item">
                 <div class="feed-item-header">
                   <span style="color: var(--text-muted); font-size: 0.72rem;">NEWS SOURCE</span>
-                  <span class="num-cell" style="color: {% if news.sentiment_score > 0.15 %}var(--bullish){% elif news.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
-                    Score: {{ news.sentiment_score }}
+                  <span class="num-cell" style="color: {% if news.sentiment_score is not none and news.sentiment_score > 0.15 %}var(--bullish){% elif news.sentiment_score is not none and news.sentiment_score < -0.15 %}var(--bearish){% else %}var(--neutral){% endif %};">
+                    Score: {% if news.sentiment_score is not none %}{{ news.sentiment_score }}{% else %}—{% endif %}
                   </span>
                 </div>
                 <p><a href="{{ news.url }}" target="_blank">{{ news.title }}</a></p>
@@ -933,26 +999,26 @@
           <tbody>
             <tr>
               <td><strong>CrowdPulse Sentiment Model (Full)</strong></td>
-              <td class="num-cell" style="color: var(--bullish);">{{ metrics.overall.model.mae }}</td>
-              <td class="num-cell" style="color: var(--bullish);">{{ metrics.overall.model.rmse }}</td>
-              <td class="num-cell" style="color: var(--bullish);">{{ (metrics.overall.model.mape * 100) | round(2) }}%</td>
-              <td class="num-cell" style="color: var(--bullish); font-weight: 700;">{{ (metrics.overall.model.directional_accuracy * 100) | round(1) }}%</td>
+              <td class="num-cell" style="color: var(--bullish);">{{ metrics.overall.model.mae | round(4) if metrics.overall.model.mae is not none else '—' }}</td>
+              <td class="num-cell" style="color: var(--bullish);">{{ metrics.overall.model.rmse | round(4) if metrics.overall.model.rmse is not none else '—' }}</td>
+              <td class="num-cell" style="color: var(--bullish);">{% if metrics.overall.model.mape is not none %}{% if metrics.overall.model.mape > 1 %}{{ metrics.overall.model.mape | round(2) }}{% else %}{{ (metrics.overall.model.mape * 100) | round(2) }}{% endif %}%{% else %}—{% endif %}</td>
+              <td class="num-cell" style="color: var(--bullish); font-weight: 700;">{% if metrics.overall.model.directional_accuracy is not none %}{{ (metrics.overall.model.directional_accuracy * 100) | round(1) }}%{% else %}—{% endif %}</td>
               <td class="num-cell">{{ metrics.overall.model.n_predictions }} predictions</td>
             </tr>
             <tr>
               <td><strong>No-Sentiment Ablation (Price & Vol Only)</strong></td>
-              <td class="num-cell">{{ metrics.overall.no_sentiment.mae }}</td>
-              <td class="num-cell">{{ metrics.overall.no_sentiment.rmse }}</td>
-              <td class="num-cell">{{ (metrics.overall.no_sentiment.mape * 100) | round(2) }}%</td>
-              <td class="num-cell">{{ (metrics.overall.no_sentiment.directional_accuracy * 100) | round(1) }}%</td>
+              <td class="num-cell">{{ metrics.overall.no_sentiment.mae | round(4) if metrics.overall.no_sentiment.mae is not none else '—' }}</td>
+              <td class="num-cell">{{ metrics.overall.no_sentiment.rmse | round(4) if metrics.overall.no_sentiment.rmse is not none else '—' }}</td>
+              <td class="num-cell">{% if metrics.overall.no_sentiment.mape is not none %}{% if metrics.overall.no_sentiment.mape > 1 %}{{ metrics.overall.no_sentiment.mape | round(2) }}{% else %}{{ (metrics.overall.no_sentiment.mape * 100) | round(2) }}{% endif %}%{% else %}—{% endif %}</td>
+              <td class="num-cell">{% if metrics.overall.no_sentiment.directional_accuracy is not none %}{{ (metrics.overall.no_sentiment.directional_accuracy * 100) | round(1) }}%{% else %}—{% endif %}</td>
               <td class="num-cell">{{ metrics.overall.no_sentiment.n_predictions }} predictions</td>
             </tr>
             <tr>
               <td><strong>Naive Last-Close Baseline</strong></td>
-              <td class="num-cell" style="color: var(--text-muted);">{{ metrics.overall.naive.mae }}</td>
-              <td class="num-cell" style="color: var(--text-muted);">{{ metrics.overall.naive.rmse }}</td>
-              <td class="num-cell" style="color: var(--text-muted);">{{ (metrics.overall.naive.mape * 100) | round(2) }}%</td>
-              <td class="num-cell" style="color: var(--text-muted);">{{ (metrics.overall.naive.directional_accuracy * 100) | round(1) }}%</td>
+              <td class="num-cell" style="color: var(--text-muted);">{{ metrics.overall.naive.mae | round(4) if metrics.overall.naive.mae is not none else '—' }}</td>
+              <td class="num-cell" style="color: var(--text-muted);">{{ metrics.overall.naive.rmse | round(4) if metrics.overall.naive.rmse is not none else '—' }}</td>
+              <td class="num-cell" style="color: var(--text-muted);">{% if metrics.overall.naive.mape is not none %}{% if metrics.overall.naive.mape > 1 %}{{ metrics.overall.naive.mape | round(2) }}{% else %}{{ (metrics.overall.naive.mape * 100) | round(2) }}{% endif %}%{% else %}—{% endif %}</td>
+              <td class="num-cell" style="color: var(--text-muted);">{% if metrics.overall.naive.directional_accuracy is not none %}{{ (metrics.overall.naive.directional_accuracy * 100) | round(1) }}%{% else %}— (zero return){% endif %}</td>
               <td class="num-cell">{{ metrics.overall.naive.n_predictions }} predictions</td>
             </tr>
           </tbody>
@@ -966,7 +1032,8 @@
 
       <!-- Plain Language Note -->
       <div style="background: rgba(15, 23, 42, 0.4); border-left: 4px solid var(--accent); padding: 1rem 1.25rem; border-radius: 4px; margin-top: 1rem; font-size: 0.88rem; line-height: 1.6;">
-        <strong>Performance Summary:</strong> Incorporating weighted retail sentiment and news momentum yields a measurable improvement over naive random-walk benchmarks. The full model achieves <strong>{{ (metrics.overall.model.directional_accuracy * 100) | round(1) }}% directional accuracy</strong> across the 10 monitored stocks, compared to <strong>{{ (metrics.overall.no_sentiment.directional_accuracy * 100) | round(1) }}%</strong> for the model without sentiment and <strong>{{ (metrics.overall.naive.directional_accuracy * 100) | round(1) }}%</strong> for the naive baseline. This confirms that social momentum provides significant informational alpha prior to market open.
+        <strong>Performance Summary:</strong> Walk-forward validation evaluates expanding-window pooled Ridge regression across the 10 monitored stocks.
+        The full sentiment model achieves <strong>{% if metrics.overall.model.directional_accuracy is not none %}{{ (metrics.overall.model.directional_accuracy * 100) | round(1) }}%{% else %}N/A{% endif %} directional accuracy</strong> (over {{ metrics.overall.model.n_predictions }} walk-forward steps), compared to <strong>{% if metrics.overall.no_sentiment.directional_accuracy is not none %}{{ (metrics.overall.no_sentiment.directional_accuracy * 100) | round(1) }}%{% else %}N/A{% endif %}</strong> for the technical ablation model and <strong>{% if metrics.overall.naive.directional_accuracy is not none %}{{ (metrics.overall.naive.directional_accuracy * 100) | round(1) }}%{% else %}baseline{% endif %}</strong> for the naive benchmark.
       </div>
     </div>
 

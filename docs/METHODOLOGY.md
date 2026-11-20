@@ -49,13 +49,16 @@ A fundamental flaw in naive sentiment pipelines is **look-ahead bias** (attribut
 
 ## 4. Sentiment Scoring & Weighting Engine
 
-### 4.1. Raw Score Normalization
-- Sentiment scores are normalized bounded floats in the interval $[-1.0, +1.0]$:
+### 4.1. Hybrid Sentiment Scoring & Lexicon Blending
+- **Model & Lexicon Blend:** Sentiment scoring uses a hybrid approach where specialized Chinese/Korean financial word lists blend **50/50** with the transformer classification model scores.
+- **Normalization:** Raw post sentiment scores are normalized bounded floats in the interval $[-1.0, +1.0]$:
   - $+1.0$: Strongest positive/bullish conviction.
   - $0.0$: Neutral, descriptive, or balanced sentiment.
   - $-1.0$: Strongest negative/bearish conviction.
-- **Directional Categorization Rule:**
-  $$\text{Direction} = \begin{cases} \text{Bullish}, & \text{score} > +0.15 \\ \text{Bearish}, & \text{score} < -0.15 \\ \text{Neutral}, & -0.15 \le \text{score} \le +0.15 \end{cases}$$
+- **Minimum Post Threshold:** Reliable sentiment analysis requires at least **5 posts** ($\ge 5$ posts) over the 10-day evaluation window. If a ticker has fewer than 5 posts, direction defaults to `neutral` due to insufficient sample confidence.
+- **Relative Baseline Comparison (Directional Determination):**
+  Direction is evaluated by comparing **recent sentiment against the stock's own historical baseline level** (relative shift / z-score), rather than relying purely on an arbitrary static raw score. This prevents persistent forum pessimism or cheerleading from distorting signals.
+  $$\text{Direction} = \begin{cases} \text{Bullish}, & \Delta S_{\text{rel}} > +0.15 \text{ and } N_{\text{posts}} \ge 5 \\ \text{Bearish}, & \Delta S_{\text{rel}} < -0.15 \text{ and } N_{\text{posts}} \ge 5 \\ \text{Neutral}, & \text{otherwise} \end{cases}$$
 
 ### 4.2. Engagement & Influence Weighting
 Raw post volume can be heavily skewed by bots and low-quality spam. Each post receives a dynamic engagement weight $W_i$:
@@ -95,18 +98,20 @@ CrowdPulse translates sentiment and technical levels into actionable risk-manage
   - **Stop Loss:** Set at primary resistance $R_1$.
   - **Target:** Set at primary support $S_1$.
   - **Risk/Reward Ratio:** $\text{RR} = \frac{P_0 - S_1}{R_1 - P_0} \ge 1.30$.
+  - **Regulatory Notice (`note` field):** An explicit compliance notice is appended to all short suggestions: `"avoid / hedge: retail short selling is restricted in Hong Kong and Korea"`.
 - **No Position (`side`: "none"):**
-  - Triggered if Direction is `neutral`, confidence $< 0.55$, or if the risk/reward ratio is less than $1.20$.
+  - Triggered if Direction is `neutral`, confidence $< 0.55$, risk/reward ratio is less than $1.20$, or **when the predictive model forecast and sentiment direction disagree** (e.g. sentiment is bearish but the model predicts positive returns). Disagreement signals regime ambiguity, enforcing capital preservation.
 
 ---
 
 ## 7. Predictive Model & Walk-Forward Validation
 
 ### 7.1. Model Architecture
-The next-day close prediction ($\hat{P}_{t+1}$) is estimated via a multivariate gradient-boosted regression pipeline combining:
+The next-day close prediction ($\hat{P}_{t+1}$) is estimated via a multivariate **Ridge Regression** pipeline with L2 regularization ($\alpha = 1.0$), engineered for stable parameter estimation under collinear financial features:
 1. **Price Momentum & Technical Features:** 5-day and 10-day returns, normalized ATR, MACD histogram, distance from 20-day moving average.
 2. **Social Momentum Features:** 10-day mentions growth ($\Delta \text{vol}\%_{10d}$), volume z-score, daily weighted sentiment, bullish post ratio.
 3. **News Sentiment Features:** 3-day news count and mean sentiment score.
+4. **Prediction Guardrails (Bounding Cap):** Predictions are bounded and capped at **$\pm 3\times$ the typical daily move** ($3\times \text{ATR}$ / empirical P99 daily move) relative to $P_t$, preventing non-linear extrapolation blowouts from retail sentiment anomalies.
 
 ### 7.2. Uncertainty Intervals
 The predicted range $[\text{Low}_{t+1}, \text{High}_{t+1}]$ is derived from quantile regression at the 10th and 90th percentiles ($80\%$ empirical prediction interval).

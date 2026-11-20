@@ -212,7 +212,8 @@ def test_summary_json_schema_and_types(sample_dir: Path) -> None:
         assert int(item.get("mentions_10d")) >= 0
         assert isinstance(item.get("mentions_change_pct"), (int, float))
         assert -1.0 <= float(item.get("sentiment_score")) <= 1.0
-        assert -1.0 <= float(item.get("news_sentiment")) <= 1.0
+        if item.get("news_sentiment") is not None:
+            assert -1.0 <= float(item.get("news_sentiment")) <= 1.0
         assert item.get("direction") in VALID_DIRECTIONS
         assert 0.0 <= float(item.get("confidence")) <= 1.0
 
@@ -221,7 +222,14 @@ def test_summary_json_schema_and_types(sample_dir: Path) -> None:
         resistance = item.get("resistance")
         assert isinstance(support, list) and len(support) == 2, f"{ticker}: support must be list of 2"
         assert isinstance(resistance, list) and len(resistance) == 2, f"{ticker}: resistance must be list of 2"
-        assert support[0] <= item["current_price"] * 1.05  # reasonable level
+        for s_lvl in support:
+            if s_lvl is not None:
+                assert float(s_lvl) > 0, f"{ticker}: support level must be positive"
+        for r_lvl in resistance:
+            if r_lvl is not None:
+                assert float(r_lvl) > 0, f"{ticker}: resistance level must be positive"
+        if support[0] is not None:
+            assert support[0] <= item["current_price"] * 1.05  # reasonable level
 
         # Position
         pos = item.get("position")
@@ -244,7 +252,8 @@ def test_summary_json_schema_and_types(sample_dir: Path) -> None:
             assert pred.get("low") is None and pred.get("high") is None
         else:
             assert float(pred["predicted_close"]) > 0
-            assert float(pred["low"]) <= float(pred["high"])
+            if pred.get("low") is not None and pred.get("high") is not None:
+                assert float(pred["low"]) <= float(pred["high"])
 
         # Top posts and top news
         top_posts = item.get("top_posts")
